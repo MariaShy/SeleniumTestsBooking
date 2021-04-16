@@ -15,8 +15,12 @@ namespace Shymanovich_Tests
     public class Tests
     {        
         private IWebDriver driver;
-        #region 1st test
-        //private readonly By _        
+        
+        #region 2nd test
+        private readonly By _aviaTicketsArea = By.XPath("//*[@id='b2indexPage']/header/nav[2]/ul/li[2]/a");
+        private readonly By _actualAviaTicketsArea = By.XPath("//h1");
+
+        private const string expectedAviaTicketsArea = "Search hundreds of flight sites at once.";
         #endregion
 
         #region 3d test
@@ -49,7 +53,13 @@ namespace Shymanovich_Tests
         [Test]
         public void Test2() //Check the moving to tiskets purchase page
         {
-            
+            var aviaTicketsArea = driver.FindElement(_aviaTicketsArea);
+            aviaTicketsArea.Click();
+            Thread.Sleep(300);
+
+            var actualAviaTicketsArea = driver.FindElement(_actualAviaTicketsArea);
+
+            Assert.AreEqual(expectedAviaTicketsArea, actualAviaTicketsArea.Text, "Could not get the Avia page!");
         }
 
         [Test]
@@ -57,14 +67,14 @@ namespace Shymanovich_Tests
         {
             var signIn = driver.FindElement(_signInButton);
             signIn.Click();
-            Thread.Sleep(500);
+            Thread.Sleep(300);
 
             var loginInput = driver.FindElement(_loginInput);
             loginInput.SendKeys(userLogin);
 
             var continueButton = driver.FindElement(_continueButton);
             continueButton.Click();
-            Thread.Sleep(500);
+            Thread.Sleep(400);
 
             var passwordInput = driver.FindElement(_passwordInput);
             passwordInput.SendKeys(userPassword);
