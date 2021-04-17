@@ -15,7 +15,17 @@ namespace Shymanovich_Tests
     public class Tests
     {        
         private IWebDriver driver;
+        #region 1st test
+        private readonly By _languageButton = By.XPath("//*[@id='b2indexPage']/header/nav[1]/div[2]/div[2]/button/span/div/img");
+        private readonly By _chooseLanguageButton = By.XPath("//div[@lang='pl']");
+        private readonly By _actualTranslation = By.XPath("//span[@class='bui-tab__text']"); 
+        private readonly By _currencyButton = By.XPath("//*[@id='b2indexPage']/header/nav[1]/div[2]/div[1]/button/span/span[1]"); //button[@data-modal-header-async-type='currencyDesktop']");
+        private readonly By _chooseCurrencyButton = By.XPath("//a[@data-modal-header-async-url-param='changed_currency=1;selected_currency=USD;top_currency=1']");
         
+        private const string expectedTranslation = "Pobyty";
+        private const string expectedCurrency = "USD";
+        #endregion
+
         #region 2nd test
         private readonly By _aviaTicketsArea = By.XPath("//*[@id='b2indexPage']/header/nav[2]/ul/li[2]/a");
         private readonly By _actualAviaTicketsArea = By.XPath("//h1");
@@ -45,9 +55,31 @@ namespace Shymanovich_Tests
         }
 
         [Test]
-        public void Test1() //Change currency / language
+        public void Test1() //Change currency & language
         {
+            var languageButton = driver.FindElement(_languageButton);
+            languageButton.Click();
+            Thread.Sleep(300);
+
+            var chooseLanguageButton = driver.FindElement(_chooseLanguageButton);
+            chooseLanguageButton.Click();
+            Thread.Sleep(300);
+
+            var actualTranslation = driver.FindElement(_actualTranslation);
+
+            Assert.AreEqual(expectedTranslation, actualTranslation.Text, "Could not change the language!");
             
+            var currencyButton = driver.FindElement(_currencyButton);
+            currencyButton.Click();
+            Thread.Sleep(300);
+
+            var chooseCurrencyButton = driver.FindElement(_chooseCurrencyButton);
+            chooseCurrencyButton.Click();
+            Thread.Sleep(300);
+
+            var actualCurrency = driver.FindElement(_currencyButton);
+
+            Assert.AreEqual(expectedCurrency, actualCurrency.Text, "Could not change the currency!");
         }
 
         [Test]
