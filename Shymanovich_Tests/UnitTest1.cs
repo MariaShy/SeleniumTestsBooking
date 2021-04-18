@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
 using System.Threading;
 
 namespace Shymanovich_Tests
@@ -46,6 +47,25 @@ namespace Shymanovich_Tests
         private const string expectedSignIn = "Maryia Shatsila";
         #endregion
 
+        #region 4th test
+        private readonly By _cityInput = By.XPath("//input[@name='ss']");
+        private readonly By _dateInput = By.XPath("//div[@class='xp__dates-inner xp__dates__checkout']");
+        private readonly By _chooseDate1 = By.XPath(dateInXPath); 
+        private readonly By _chooseDate2 = By.XPath(dateOutXPath); 
+        private readonly By _guestsInput = By.XPath("//label[@id='xp__guests__toggle']");
+        private readonly By _childrenChoose = By.XPath("//button[@aria-label='Increase number of Children']");
+        private readonly By _searchButton = By.XPath("//button[@data-sb-id='main']");
+        private readonly By _actualSearch = By.XPath("//div[@class='bui-breadcrumb__text']");
+
+        private const string userCity = "Minsk";
+        private const string expectedSearch = "Home";
+        
+        static string dateIn = DateTime.Now.AddDays(14).ToString("yyyy-MM-dd");
+        static string dateInXPath = "//td[@data-date='" + dateIn + "']";
+        static string dateOut = DateTime.Now.AddDays(16).ToString("yyyy-MM-dd");
+        static string dateOutXPath = "//td[@data-date='" + dateOut + "']";
+        #endregion
+
         [SetUp]
         public void Setup()
         {            
@@ -63,7 +83,7 @@ namespace Shymanovich_Tests
 
             var chooseLanguageButton = driver.FindElement(_chooseLanguageButton);
             chooseLanguageButton.Click();
-            Thread.Sleep(300);
+            Thread.Sleep(400);
 
             var actualTranslation = driver.FindElement(_actualTranslation);
 
@@ -121,9 +141,37 @@ namespace Shymanovich_Tests
         }
 
         [Test]
-        public void Test4() //Check the filter (choose a city, trip in a week, arrival +2 days, 2 adults & 1 child, 1 room)
+        public void Test4() //Check the filter (choose a city, trip: in a week, arrival: +2 days, 2 adults & 1 child, 1 room)
         {
-            
+            var cityInput = driver.FindElement(_cityInput);
+            cityInput.SendKeys(userCity);
+
+            var dateInput1 = driver.FindElement(_dateInput);
+            dateInput1.Click();
+
+            var chooseDate1 = driver.FindElement(_chooseDate1);
+            chooseDate1.Click();
+
+            var dateInput2 = driver.FindElement(_dateInput);
+            dateInput2.Click();
+            dateInput2.Click();
+
+            var chooseDate2 = driver.FindElement(_chooseDate2);
+            chooseDate2.Click();            
+
+            var guestsInput = driver.FindElement(_guestsInput);
+            guestsInput.Click();
+
+            var childrenChoose = driver.FindElement(_childrenChoose);
+            childrenChoose.Click();
+
+            var searchButton = driver.FindElement(_searchButton);
+            searchButton.Click();
+            Thread.Sleep(400);
+
+            var actualSearch = driver.FindElement(_actualSearch);
+
+            Assert.AreEqual(expectedSearch, actualSearch.Text, "Could not search the trip!");
         }
 
         [TearDown]
