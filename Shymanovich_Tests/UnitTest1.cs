@@ -8,19 +8,19 @@ namespace Shymanovich_Tests
 {
     /* 
      * for Booking.com:
-     * Change currency / language
-     * Check the moving to tiskets purchase page
-     * Check the availability of personal page
-     * Check the filter (choose a city, trip in a week, arrival +2 days, 2 adults & 1 child, 1 room)
+     * 1/Change currency / language
+     * 2/Check the moving to tiskets purchase page
+     * 3/Check the availability of personal page
+     * 4/Check the filter (choose a city, trip in a week, arrival +2 days, 2 adults & 1 child, 1 room)
      */
     public class Tests
     {        
         private IWebDriver driver;
         #region 1st test
-        private readonly By _languageButton = By.XPath("//*[@id='b2indexPage']/header/nav[1]/div[2]/div[2]/button/span/div/img");
+        private readonly By _languageButton = By.XPath("//button[@data-modal-id='language-selection']");
         private readonly By _chooseLanguageButton = By.XPath("//div[@lang='pl']");
         private readonly By _actualTranslation = By.XPath("//span[@class='bui-tab__text']"); 
-        private readonly By _currencyButton = By.XPath("//*[@id='b2indexPage']/header/nav[1]/div[2]/div[1]/button/span/span[1]"); //button[@data-modal-header-async-type='currencyDesktop']");
+        private readonly By _currencyButton = By.XPath("//*[@id='b2indexPage']/header/nav[1]/div[2]/div[1]/button/span/span[1]"); 
         private readonly By _chooseCurrencyButton = By.XPath("//a[@data-modal-header-async-url-param='changed_currency=1;selected_currency=USD;top_currency=1']");
         
         private const string expectedTranslation = "Pobyty";
@@ -28,18 +28,18 @@ namespace Shymanovich_Tests
         #endregion
 
         #region 2nd test
-        private readonly By _aviaTicketsArea = By.XPath("//*[@id='b2indexPage']/header/nav[2]/ul/li[2]/a");
+        private readonly By _aviaTicketsArea = By.XPath("//a[@data-decider-header='flights']");
         private readonly By _actualAviaTicketsArea = By.XPath("//h1");
 
         private const string expectedAviaTicketsArea = "Search hundreds of flight sites at once.";
         #endregion
 
-        #region 3d test
+        #region 3rd test
         private readonly By _signInButton = By.XPath("//*[@id='b2indexPage']/header/nav[1]/div[2]/div[6]/a/span");
         private readonly By _loginInput = By.XPath("//*[@id='username']");
-        private readonly By _continueButton = By.XPath("//*[@id='root']/div/div[2]/div[1]/div/div/div/div/div/div/form/div[3]/button/span");
+        private readonly By _continueButton = By.XPath("//button[@type='submit']");
         private readonly By _passwordInput = By.XPath("//*[@id='password']");
-        private readonly By _enterButton = By.XPath("//*[@id='root']/div/div[2]/div[1]/div/div/div/div/div/div/form/button/span");
+        private readonly By _enterButton = By.XPath("//button[@type='submit']");
         private readonly By _actualSignIn = By.XPath("//*[@id='profile-menu-trigger--title']");
 
         private const string userLogin = "24011989m@mail.ru";
@@ -75,7 +75,7 @@ namespace Shymanovich_Tests
         }
 
         [Test]
-        public void Test1() //Change currency & language
+        public void Test1ChangeCurLan() //Change currency & language
         {
             var languageButton = driver.FindElement(_languageButton);
             languageButton.Click();
@@ -103,7 +103,7 @@ namespace Shymanovich_Tests
         }
 
         [Test]
-        public void Test2() //Check the moving to tiskets purchase page
+        public void Test2CheckMovingToTicketsPurch() //Check the moving to tiskets purchase page
         {
             var aviaTicketsArea = driver.FindElement(_aviaTicketsArea);
             aviaTicketsArea.Click();
@@ -115,7 +115,7 @@ namespace Shymanovich_Tests
         }
 
         [Test]
-        public void Test3() //Check the availability of personal page
+        public void Test3CheckPersPage() //Check the availability of personal page
         {
             var signIn = driver.FindElement(_signInButton);
             signIn.Click();
@@ -141,7 +141,7 @@ namespace Shymanovich_Tests
         }
 
         [Test]
-        public void Test4() //Check the filter (choose a city, trip: in a week, arrival: +2 days, 2 adults & 1 child, 1 room)
+        public void Test4CheckFilter() //Check the filter (choose a city, trip: in a week, arrival: +2 days, 2 adults & 1 child, 1 room)
         {
             var cityInput = driver.FindElement(_cityInput);
             cityInput.SendKeys(userCity);
